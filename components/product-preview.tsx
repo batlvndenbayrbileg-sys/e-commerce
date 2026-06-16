@@ -6,7 +6,7 @@ import { Gauge, Weight, ArrowRight, ArrowUpRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useLanguage } from "@/context/language-context"
-import { STAGGER, ITEM, HEADING, FADE } from "@/lib/motion"
+import { STAGGER, ITEM, HEADING, FADE, useScrollReveal } from "@/lib/motion"
 
 type Product = {
   id: number
@@ -173,6 +173,9 @@ function ProductCard({ product }: { product: Product }) {
 export default function ProductPreview() {
   const { t } = useLanguage()
   const [activeCategory, setActiveCategory] = useState("All")
+  const header = useScrollReveal()
+  const grid   = useScrollReveal()
+  const footer = useScrollReveal()
 
   const categories = [
     { label: "All",        match: null },
@@ -194,10 +197,10 @@ export default function ProductPreview() {
 
         {/* ── Header ── */}
         <motion.div
+          ref={header.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
+          animate={header.animate}
           className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8"
         >
           <div className="max-w-xl">
@@ -237,10 +240,10 @@ export default function ProductPreview() {
         {/* ── Grid — one observer on the wrapper, stagger the children ── */}
         {visible.length > 0 ? (
           <motion.div
+            ref={grid.ref}
             variants={STAGGER}
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.05 }}
+            animate={grid.animate}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
           >
             {visible.map((p) => (
@@ -261,10 +264,10 @@ export default function ProductPreview() {
 
         {/* ── CTA ── */}
         <motion.div
+          ref={footer.ref}
           variants={ITEM}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.5 }}
+          animate={footer.animate}
           className="mt-10 flex flex-col items-center gap-2"
         >
           <Link

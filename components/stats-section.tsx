@@ -5,7 +5,7 @@ import { motion, useInView } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, Phone } from "lucide-react"
 import { useLanguage } from "@/context/language-context"
-import { STAGGER, ITEM, HEADING } from "@/lib/motion"
+import { STAGGER, ITEM, HEADING, useScrollReveal } from "@/lib/motion"
 
 // Counter only needs its own ref for the number animation trigger
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
@@ -33,6 +33,9 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
 
 export default function StatsSection() {
   const { t } = useLanguage()
+  const header = useScrollReveal()
+  const grid   = useScrollReveal()
+  const cta    = useScrollReveal()
 
   const stats = [
     { value: 2400, suffix: "+", labelKey: "statUnitsLabel"     as const, subKey: "statUnitsSub"     as const, color: "blue" },
@@ -50,10 +53,10 @@ export default function StatsSection() {
 
         {/* Header */}
         <motion.div
+          ref={header.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          animate={header.animate}
           className="max-w-2xl mb-8"
         >
           <motion.div variants={ITEM} className="flex items-center gap-3 mb-4">
@@ -73,10 +76,10 @@ export default function StatsSection() {
 
         {/* Stats grid */}
         <motion.div
+          ref={grid.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
+          animate={grid.animate}
           className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4"
         >
           {stats.map((s) => (
@@ -104,10 +107,10 @@ export default function StatsSection() {
 
         {/* CTA banner */}
         <motion.div
+          ref={cta.ref}
           variants={ITEM}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          animate={cta.animate}
           className="relative bg-[#06060A] rounded-3xl p-8 lg:p-12 overflow-hidden"
         >
           {/* Background glows */}

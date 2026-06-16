@@ -21,7 +21,7 @@ export default function BrandMarquee() {
   return (
     <section
       aria-label="Trusted manufacturers"
-      className="relative py-14 lg:py-16 overflow-hidden"
+      className="relative py-8 lg:py-10 overflow-hidden"
       style={{
         background: "linear-gradient(180deg, #06060A 0%, #0e0e14 40%, #FAF9F7 100%)",
       }}

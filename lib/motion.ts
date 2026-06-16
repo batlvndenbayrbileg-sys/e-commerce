@@ -1,4 +1,21 @@
+import { useRef } from "react"
+import { useInView } from "framer-motion"
 import type { Variants } from "framer-motion"
+
+/**
+ * Section-level scroll reveal hook.
+ * Uses ONE IntersectionObserver per section (same as the whileInView pattern
+ * but more reliable in Next.js App Router production with React 19).
+ *
+ * Usage:
+ *   const { ref, animate } = useScrollReveal()
+ *   <motion.div ref={ref} variants={STAGGER} initial="hidden" animate={animate}>
+ */
+export function useScrollReveal(margin = "0px 0px -60px 0px") {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin } as any)
+  return { ref, animate: (inView ? "show" : "hidden") as "show" | "hidden" }
+}
 
 /**
  * Scroll-reveal variants.

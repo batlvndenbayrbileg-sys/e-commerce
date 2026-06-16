@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Search, MessageSquare, Wrench, Truck } from "lucide-react"
-import { STAGGER, ITEM, HEADING } from "@/lib/motion"
+import { STAGGER, ITEM, HEADING, useScrollReveal } from "@/lib/motion"
 
 const STEPS = [
   {
@@ -32,20 +32,22 @@ const STEPS = [
 ]
 
 export default function HowItWorks() {
+  const header = useScrollReveal()
+  const steps  = useScrollReveal()
+
   return (
-    <section className="relative py-24 lg:py-32 bg-[#FAF9F7] overflow-hidden">
-      {/* Subtle background grid */}
+    <section className="relative py-14 lg:py-20 bg-[#FAF9F7] overflow-hidden">
       <div className="absolute inset-0 bg-dots opacity-20 pointer-events-none" />
 
       <div className="relative max-w-[1400px] mx-auto px-6 lg:px-8">
 
         {/* Header */}
         <motion.div
+          ref={header.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="max-w-2xl mb-16"
+          animate={header.animate}
+          className="max-w-2xl mb-8"
         >
           <motion.div variants={ITEM} className="flex items-center gap-3 mb-4">
             <span className="w-8 h-[2px] bg-[#FF6B35]" />
@@ -69,18 +71,18 @@ export default function HowItWorks() {
 
         {/* Steps */}
         <motion.div
+          ref={steps.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.05 }}
+          animate={steps.animate}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {STEPS.map((step, i) => {
-            const Icon       = step.icon
-            const isBlue     = step.accent === "blue"
-            const iconBg     = isBlue ? "bg-[#007AFF]/10 border-[#007AFF]/15"
-                                      : "bg-[#FF6B35]/10 border-[#FF6B35]/15"
-            const iconColor  = isBlue ? "text-[#007AFF]" : "text-[#FF6B35]"
+            const Icon      = step.icon
+            const isBlue    = step.accent === "blue"
+            const iconBg    = isBlue ? "bg-[#007AFF]/10 border-[#007AFF]/15"
+                                     : "bg-[#FF6B35]/10 border-[#FF6B35]/15"
+            const iconColor = isBlue ? "text-[#007AFF]" : "text-[#FF6B35]"
 
             return (
               <motion.div
@@ -88,7 +90,6 @@ export default function HowItWorks() {
                 variants={ITEM}
                 className="bg-white rounded-2xl p-6 flex flex-col border border-[#F0EDE8] hover:border-[#007AFF]/20 hover:shadow-[0_8px_32px_-8px_rgba(0,122,255,0.12)] transition-all duration-300 group"
               >
-                {/* Top row: icon + step number */}
                 <div className="flex items-center justify-between mb-5">
                   <div className={`w-11 h-11 rounded-xl border flex items-center justify-center ${iconBg}`}>
                     <Icon size={19} className={iconColor} strokeWidth={2.2} />
@@ -105,7 +106,6 @@ export default function HowItWorks() {
                   {step.desc}
                 </p>
 
-                {/* Connector dot for last step */}
                 {i < STEPS.length - 1 && (
                   <div className="hidden lg:block mt-5 w-full h-px bg-gradient-to-r from-[#E8E6E1] to-transparent" />
                 )}

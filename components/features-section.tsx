@@ -3,10 +3,12 @@
 import { motion } from "framer-motion"
 import { Wrench, Globe2, ShieldCheck, Clock, Truck, Award, ArrowUpRight } from "lucide-react"
 import { useLanguage } from "@/context/language-context"
-import { STAGGER, ITEM, HEADING } from "@/lib/motion"
+import { STAGGER, ITEM, HEADING, useScrollReveal } from "@/lib/motion"
 
 export default function FeaturesSection() {
   const { t } = useLanguage()
+  const header = useScrollReveal()
+  const grid   = useScrollReveal()
 
   const features = [
     {
@@ -54,10 +56,10 @@ export default function FeaturesSection() {
 
         {/* Header */}
         <motion.div
+          ref={header.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          animate={header.animate}
           className="max-w-2xl mb-8"
         >
           <motion.div variants={ITEM} className="flex items-center gap-3 mb-4">
@@ -77,10 +79,10 @@ export default function FeaturesSection() {
 
         {/* Bento grid — one observer on wrapper */}
         <motion.div
+          ref={grid.ref}
           variants={STAGGER}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.05 }}
+          animate={grid.animate}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
         >
           {features.map((f) => {
